@@ -1,10 +1,10 @@
-Project Overview
+# Project Overview
 
 This backend powers the Admissions Management System, enabling seamless handling of student applications, interviews, performance tracking, attendance, and communication between students, mentors, and administrators.
 
 The system is built for scalability, reliability, and automation, integrating email/SMS notifications, scheduling, and real-time attendance tracking.
 
- Core Features
+ # Core Features
 
 Admissions Management: Create, update, and manage applicants and interviews.
 
@@ -32,7 +32,7 @@ Performance Tracking: Store and analyze grading data with feedback support.
 | Video Integration | **Google Meet API**        | Auto-attendance from meeting participation                         |
 | File Uploads      | **Multer**                 | Handling uploads for assignments and documents                     |
 
-Setup Instructions
+# Setup Instructions
 Prerequisites
 
 Node.js: v18 or later
@@ -45,10 +45,10 @@ Git installed and configured
 
 (Optional) Docker for local database setup
 
-git clone 
-npm install
+# git clone 
+# npm install
 
-Setup Environment Variables
+# Setup Environment Variables
 .env
 # Application
 PORT=5000
@@ -74,14 +74,14 @@ GOOGLE_REDIRECT_URI=your_redirect_uri
 # JWT or Auth Keys (if applicable)
 JWT_SECRET=your_jwt_secret
 
-Setup the Database
+# Setup the Database
 npx prisma migrate dev
 npx prisma generate
 
- Run the Server
+ # Run the Server
  npm run dev
 
-Production
+# Production
 npm run build
 npm start
 
