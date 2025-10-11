@@ -1,4 +1,4 @@
-# Uptick Talent LMS (Flutter)
+# Uptick Talent LMS (Mobile)
 
 A modern Learning Management System (LMS) built with **Flutter**, designed to provide a seamless learning experience for students and instructors.
 

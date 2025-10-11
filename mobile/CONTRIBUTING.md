@@ -1,7 +1,7 @@
-# Contributing to Uptick Talent LMS (Flutter)
+# Contributing to Uptick Talent LMS (Mobile)
 
 Thank you for your interest in contributing! 🎉  
-This document outlines the contribution workflow, coding standards, and development setup for the **Uptick Talent LMS Flutter** project.
+This document outlines the contribution workflow, coding standards, and development setup for the **Uptick Talent LMS Mobile** project.
 
 Our goal is to make the process smooth and consistent for everyone — whether you’re fixing a bug, adding a feature, or improving documentation.
 
@@ -48,15 +48,15 @@ Make sure you have the following installed:
 
 Use descriptive branch names following this structure:
 
-| Type       | Description                 | Example                       |
-| ---------- | --------------------------- | ----------------------------- |
-| `feature/` | New feature implementation  | `feature/add-login-screen`    |
-| `fix/`     | Bug fix or patch            | `fix/auth-token-refresh`      |
-| `chore/`   | Maintenance or minor update | `chore/update-dependencies`   |
-| `docs/`    | Documentation update        | `docs/add-contributing-guide` |
-| `test/`    | Testing                     | `test/widget test for auth`   |
+| Type       | Description                 | Example                               |
+| ---------- | --------------------------- | ------------------------------------- |
+| `feature/` | New feature implementation  | `UPT 15 feature/add-login-screen `    |
+| `fix/`     | Bug fix or patch            | `UPT 16 fix/auth-token-refresh `      |
+| `chore/`   | Maintenance or minor update | `UPT 17 chore/update-dependencies `   |
+| `docs/`    | Documentation update        | `UPT 18 docs/add-contributing-guide ` |
+| `test/`    | Testing                     | `UPT 19 test/widget test for auth `   |
 
----
+## **Note:** Always attach the **ticket number** to both your **branch name** and **PR title** to make tracking easier.
 
 ## 📝 Commit Message Guidelines
 
@@ -65,16 +65,17 @@ We follow the **Conventional Commits** format for clarity and consistency.
 **Format:**
 
 ```
-<type>(scope): <short summary>
+<ticket number><type>(scope): <short summary>
+UPT-7-implement-shared-auth-component
 ```
 
 **Examples:**
 
 ```
-feat(auth): implement user login API
-fix(ui): correct button alignment in dashboard
-chore: update Flutter dependencies
-docs: add README setup instructions
+feat(auth):UPT-15 implement user login API
+fix(ui): UPT-16 correct button alignment in dashboard
+chore:  UPT-17 update Flutter dependencies
+docs:  UPT-17 add README setup instructions
 ```
 
 **Allowed Types:**
@@ -111,48 +112,73 @@ Ensure **all tests pass** before opening a pull request.
 
 ## Pull Request (PR) Process
 
-1. Ensure your branch is **up to date** with `main`:
+1.  Ensure your branch is **up to date** with `main`:
 
-   ```bash
-   git pull origin main
-   ```
+    ```bash
+    git pull origin main
+    ```
 
-2. Commit and push your changes:
+2.  Commit and push your changes:
 
-   ```bash
-   git add .
-   git commit -m "feat(auth): add login UI"
-   git push origin feature/add-login-ui
-   ```
+    ```bash
+    git add .
+    git commit -m "feat(auth): add login UI"
+    git push origin feature/add-login-ui
+    ```
 
-3. Open a Pull Request (PR) on GitHub:
+3.  Open a Pull Request (PR) on GitHub:
 
-   - Base branch: `main`
-   - Compare branch: your feature branch
-   - Fill in PR title and description clearly.
+    - Base branch: `main`
+    - Compare branch: your feature branch
+    - Fill in PR title and description clearly.
+      | Field | Example |
+      | --------------- | ---------------------------------------------- |
+      | **Branch Name** | `feature/readme-setup-UPT-14` |
+      | **PR Title** | `[UPT-14] docs: added README to project setup` |
+      Always include the ticket number (e.g., UPT-14) in both your branch name and PR title.
+      This helps maintain traceability between code changes and project tasks.
 
-4. Before requesting review:
+4.  Before requesting review:
 
-   - Code is formatted and lint-free
-   - Tests pass successfully
-   - PR description explains the change clearly
+    - Code is formatted and lint-free
+    - Tests pass successfully
+    - PR description explains the change clearly
 
-5. Wait for at least **one code review approval** before merging.
+5.  Wait for at least **one code review approval** before merging.
 
 ---
 
-## Issue Reporting
+## 🧾 Issue Reporting
 
-If you find a bug or want to request a feature:
+If you find a bug or want to request a new feature:
 
 1. Go to the **Issues** tab in the repository.
-2. Choose the correct template (Bug Report or Feature Request).
-3. Include:
-   - A clear **title**
+2. Choose the correct template (**Bug Report** or **Feature Request**).
+3. Provide the following details:
+   - A clear and concise **title**
    - **Steps to reproduce** the issue
    - **Expected vs. actual behavior**
-   - Screenshots (if applicable)
-   - Device or OS info (Android/iOS version)
+   - **Screenshots or screen recordings** (if applicable)
+   - **Device or OS information** (e.g., Android/iOS version)
+
+---
+
+## 🎥 Desk Checks & Recordings
+
+To maintain design and product quality, all features must go through a **desk check** process before final approval:
+
+- **Recordings:**  
+  Each contributor should attach a short **screen recording or demo video** showing the implemented feature in action.  
+  This helps reviewers, PMs, and designers validate the flow and confirm UI/UX alignment.
+
+- **Desk Check Validation:**
+
+  - The **Project Manager (PM)** and **Design Team** will review the recordings.
+  - They will validate design accuracy and user experience.
+  - Feedback from this validation should be addressed before merging the PR.
+
+- **Resource Allocation:**  
+  The **Team Lead** is responsible for assigning contributors and ensuring that desk checks are completed before the feature is approved.
 
 ---
 
