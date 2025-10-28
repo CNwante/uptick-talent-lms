@@ -20,7 +20,8 @@ const Input: React.FC<InputProps> = ({
         </label>
       )}
 
-      <input
+      <Box
+        as="input"
         id={id}
         className={clsx(
           'w-full p-3 rounded-md bg-white text-black placeholder:text-gray-400 border',
