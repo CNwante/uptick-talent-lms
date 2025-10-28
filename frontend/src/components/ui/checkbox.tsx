@@ -13,7 +13,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
 }) => {
   return (
     <Box className={clsx('flex items-start gap-2', wrapperClassName)}>
-      <input
+      <Box
+        as="input"
         id={id}
         type="checkbox"
         className={clsx(
@@ -24,7 +25,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       />
       <Box as="label" htmlFor={id} className="text-sm text-[#605D64] leading-tight">
         {label}
-        {description && <p className="text-xs text-gray-500 mt-0.5">{description}</p>}
+        {description && <Box className="text-xs text-gray-500 mt-0.5">{description}</Box>}
       </Box>
     </Box>
   );
