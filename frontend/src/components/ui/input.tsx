@@ -32,8 +32,8 @@ const Input: React.FC<InputProps> = ({
         {...props}
       />
 
-      {error && <Box className="text-sm text-red-500 mt-1">{error}</Box>}
-      {!error && helperText && <Box className="text-xs text-gray-500 mt-1">{helperText}</Box>}
+      {error && <Box as="p" className="text-sm text-red-500 mt-1">{error}</Box>}
+      {!error && helperText && <Box as="p" className="text-xs text-gray-500 mt-1">{helperText}</Box>}
     </Box>
   );
 };

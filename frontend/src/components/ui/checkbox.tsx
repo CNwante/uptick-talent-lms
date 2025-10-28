@@ -25,7 +25,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
       />
       <Box as="label" htmlFor={id} className="text-sm text-[#605D64] leading-tight">
         {label}
-        {description && <Box className="text-xs text-gray-500 mt-0.5">{description}</Box>}
+        {description && <Box as="p" className="text-xs text-gray-500 mt-0.5">{description}</Box>}
       </Box>
     </Box>
   );
