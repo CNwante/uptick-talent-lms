@@ -15,9 +15,9 @@ const Input: React.FC<InputProps> = ({
   return (
     <Box className={clsx('w-full flex flex-col', wrapperClassName)}>
       {label && (
-        <label htmlFor={id} className="text-sm text-[#605D64] mb-1">
+        <Box as="label" htmlFor={id} className="text-sm text-[#605D64] mb-1">
           {label}
-        </label>
+        </Box>
       )}
 
       <Box
@@ -32,8 +32,8 @@ const Input: React.FC<InputProps> = ({
         {...props}
       />
 
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
-      {!error && helperText && <p className="text-xs text-gray-500 mt-1">{helperText}</p>}
+      {error && <Box className="text-sm text-red-500 mt-1">{error}</Box>}
+      {!error && helperText && <Box className="text-xs text-gray-500 mt-1">{helperText}</Box>}
     </Box>
   );
 };
