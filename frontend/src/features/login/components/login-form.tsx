@@ -44,7 +44,9 @@ const LoginForm: React.FC = () => {
 
   return (
     <Box as="form" className="w-full max-w-md" onSubmit={formik.handleSubmit}>
-      <p className="mb-4 text-[#808080]">{text.title}</p>
+      <Box as="p" className="mb-4 text-[#808080]">
+        {text.title}
+      </Box>
 
       <Input
         id="email"
