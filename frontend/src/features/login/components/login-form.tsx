@@ -58,6 +58,8 @@ const LoginForm: React.FC = () => {
         error={formik.touched.email && formik.errors.email ? formik.errors.email : undefined}
       />
 
+      <Box className="mt-4" />
+
       <Input
         id="password"
         name="password"
