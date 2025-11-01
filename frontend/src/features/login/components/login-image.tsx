@@ -16,7 +16,7 @@ const LoginImage = () => {
       as="img"
       src={image[role]}
       alt="Uptick branding"
-      className="w-full h-full object-cover md:rounded-tr-4xl md:rounded-br-4xl"
+      className="hidden md:block w-full h-full object-cover md:rounded-tr-4xl md:rounded-br-4xl"
     />
   );
 };
