@@ -78,7 +78,7 @@ const LoginForm: React.FC = () => {
 
       <Box className="mt-6 flex flex-col gap-3 items-center">
         <Button type="submit" fullWidth>
-          {text.login}
+          {isSubmitting ? 'Processing...' : text.login}
         </Button>
 
         <Link
