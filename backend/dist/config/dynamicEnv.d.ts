@@ -1,2 +1,0 @@
-import { Env } from "../types";
-export declare const env: Env;
