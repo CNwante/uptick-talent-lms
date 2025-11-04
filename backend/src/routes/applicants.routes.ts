@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { createApplicant } from "../controllers/applicants..controller";
+import { createApplicant, getAllApplicants } from "../controllers/applicants..controller";
 
 const router = Router()
 router.post('/createApplicant', createApplicant) 
+router.get('/',  getAllApplicants)
 
 
 
