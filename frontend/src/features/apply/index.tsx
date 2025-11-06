@@ -44,7 +44,13 @@ const defaultInitialValues: ApplicationFormData = {
   confirm: false,
 };
 
-const steps = [
+interface Step {
+  title: string;
+  description: string;
+  component: React.ReactNode;
+}
+
+const steps: Step[] = [
   {
     title: 'Personal Information',
     description: "Let's get to know you.",
