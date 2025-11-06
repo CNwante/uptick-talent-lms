@@ -1,3 +1,10 @@
+export enum Tracks {
+  FRONTEND = 'FRONTEND',
+  BACKEND = 'BACKEND',
+  FULLSTACK = 'FULLSTACK_DEVELOPMENT',
+  MOBILE = 'MOBILE_DEVELOPMENT',
+}
+
 export type ApplicationFormData = {
   // Step 1
   firstName: string;
@@ -7,12 +14,7 @@ export type ApplicationFormData = {
   city: string;
 
   // Step 2
-  track:
-    | ''
-    | 'FRONTEND'
-    | 'BACKEND'
-    | 'FULLSTACK_DEVELOPMENT'
-    | 'MOBILE_DEVELOPMENT';
+ track: Tracks | '';
 
   // Step 3
   frontendTools: string[];

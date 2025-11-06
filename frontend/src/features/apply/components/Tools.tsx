@@ -1,29 +1,41 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
-import { ApplicationFormData } from '../types';
+import { ApplicationFormData, Tracks } from '../types';
 import { FormCheckboxGroup, FormInput } from './FormInput';
 import Box from '@/components/ui/box';
 
 const toolOptions = {
-  frontend: ['React', 'Vue', 'Angular', 'Svelte', 'Next.js', 'Tailwind CSS'],
+  frontend: [
+    { value: 'REACT', label: 'React' },
+    { value: 'VUE', label: 'Vue' },
+    { value: 'ANGULAR', label: 'Angular' },
+    { value: 'NEXT_JS', label: 'Next.js' },
+    { value: 'TAILWIND_CSS', label: 'Tailwind CSS' },
+    { value: 'OTHER', label: 'Other' },
+  ],
   backend: [
-    'Node.js',
-    'Python (Django/Flask)',
-    'PHP (Laravel)',
-    'Java (Spring)',
-    'Ruby on Rails',
-    'Go',
+    { value: 'NODE_JS', label: 'Node.js' },
+    { value: 'PYTHON', label: 'Python (Django/Flask)' },
+    { value: 'PHP', label: 'PHP (Laravel)' },
+    { value: 'JAVA', label: 'Java (Spring)' },
+    { value: 'GO', label: 'Go' },
+    { value: 'OTHER', label: 'Other' },
   ],
   fullstack: [
-    'React',
-    'Node.js',
-    'Next.js',
-    'Laravel',
-    'Django',
-    'MongoDB',
-    'PostgreSQL',
+    { value: 'REACT', label: 'React' },
+    { value: 'NODE_JS', label: 'Node.js' },
+    { value: 'NEXT_JS', label: 'Next.js' },
+    { value: 'LARAVEL', label: 'Laravel' },
+    { value: 'DJANGO', label: 'Django' },
+    { value: 'OTHER', label: 'Other' },
   ],
-  mobile: ['React Native', 'Flutter', 'Swift (iOS)', 'Kotlin (Android)'],
+  mobile: [
+    { value: 'FLUTTER', label: 'Flutter' },
+    { value: 'REACT_NATIVE', label: 'React Native' },
+    { value: 'KOTLIN', label: 'Kotlin' },
+    { value: 'SWIFT', label: 'Swift' },
+    { value: 'OTHER', label: 'Other' },
+  ],
 };
 
 export const Tools = () => {
@@ -31,7 +43,7 @@ export const Tools = () => {
 
   return (
     <Box>
-      {values.track === 'FRONTEND' && (
+      {values.track === Tracks.FRONTEND && (
         <Box>
           <FormCheckboxGroup
             name="frontendTools"
@@ -40,13 +52,13 @@ export const Tools = () => {
           <FormInput name="frontendToolsOther" label="Other (please specify)" />
         </Box>
       )}
-      {values.track === 'BACKEND' && (
+      {values.track === Tracks.BACKEND && (
         <Box>
           <FormCheckboxGroup name="backendTools" options={toolOptions.backend} />
           <FormInput name="backendToolsOther" label="Other (please specify)" />
         </Box>
       )}
-      {values.track === 'FULLSTACK_DEVELOPMENT' && (
+      {values.track === Tracks.FULLSTACK && (
         <Box>
           <FormCheckboxGroup
             name="fullstackTools"
@@ -55,7 +67,7 @@ export const Tools = () => {
           <FormInput name="fullstackToolsOther" label="Other (please specify)" />
         </Box>
       )}
-      {values.track === 'MOBILE_DEVELOPMENT' && (
+      {values.track === Tracks.MOBILE && (
         <Box>
           <FormCheckboxGroup name="mobileTools" options={toolOptions.mobile} />
           <FormInput name="mobileToolsOther" label="Other (please specify)" />

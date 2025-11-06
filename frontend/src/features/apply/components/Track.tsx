@@ -4,12 +4,13 @@ import Box from '@/components/ui/box';
 import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
+import { Tracks } from '../types';
 
 const stackOptions = [
-  { value: 'FRONTEND', label: 'Frontend Engineering' },
-  { value: 'BACKEND', label: 'Backend Engineering' },
-  { value: 'FULLSTACK_DEVELOPMENT', label: 'Fullstack Engineering' },
-  { value: 'MOBILE_DEVELOPMENT', label: 'Mobile Engineering' },
+  { value: Tracks.FRONTEND, label: 'Frontend Engineering' },
+  { value: Tracks.BACKEND, label: 'Backend Engineering' },
+  { value: Tracks.FULLSTACK, label: 'Fullstack Engineering' },
+  { value: Tracks.MOBILE, label: 'Mobile Engineering' },
 ];
 
 export const Track = () => {
@@ -24,25 +25,25 @@ export const Track = () => {
           <RadioGroup
             name={field.name}
             value={field.value}
-            // Use onValueChange to update Formik's state
             onValueChange={value => {
               form.setFieldValue(field.name, value);
             }}
             className="space-y-3"
           >
             {stackOptions.map(option => (
-              // Use Label to make the whole box clickable
               <Label
                 key={option.value}
-                htmlFor={option.value} // Associates label with the RadioGroupItem
+                htmlFor={option.value}
                 className={cn(
                   'flex items-center justify-between p-4 border rounded-lg cursor-pointer',
                   field.value === option.value
                     ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-500'
-                    : 'border-gray-300'
+                    : 'border-gray-300',
                 )}
               >
-                <span className="font-medium">{option.label}</span>
+                <Box as="span" className="font-medium">
+                  {option.label}
+                </Box>
                 <RadioGroupItem value={option.value} id={option.value} />
               </Label>
             ))}
@@ -50,11 +51,7 @@ export const Track = () => {
         )}
       </Field>
 
-      <ErrorMessage
-        name="track"
-        component="div"
-        className="text-red-600 text-sm mt-2"
-      />
+      <ErrorMessage name="track" component="div" className="text-red-600 text-sm mt-2" />
     </Box>
   );
 };

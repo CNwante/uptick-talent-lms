@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Tracks } from '@/features/apply/types';
 
 // Step 1: Personal Information
 export const PersonalInfoSchema = Yup.object({
@@ -26,35 +27,32 @@ export const PersonalInfoSchema = Yup.object({
 // Step 2: Track Selection
 export const TrackSchema = Yup.object({
   track: Yup.string()
-    .oneOf(
-      ['FRONTEND', 'BACKEND', 'FULLSTACK_DEVELOPMENT', 'MOBILE_DEVELOPMENT'],
-      'Please select a track'
-    )
+    .oneOf(Object.values(Tracks), 'Please select a track')
     .required('Please select a track'),
 });
 
 // Step 3: Tools & Experience
 export const ToolsSchema = Yup.object().shape({
   frontendTools: Yup.array().when('track', {
-    is: 'FRONTEND',
+    is: Tracks.FRONTEND,
     then: schema =>
       schema.min(1, 'Please select at least one tool').required(),
     otherwise: schema => schema.notRequired(),
   }),
   backendTools: Yup.array().when('track', {
-    is: 'BACKEND',
+    is: Tracks.BACKEND,
     then: schema =>
       schema.min(1, 'Please select at least one tool').required(),
     otherwise: schema => schema.notRequired(),
   }),
   fullstackTools: Yup.array().when('track', {
-    is: 'FULLSTACK_DEVELOPMENT',
+    is: Tracks.FULLSTACK,
     then: schema =>
       schema.min(1, 'Please select at least one tool').required(),
     otherwise: schema => schema.notRequired(),
   }),
   mobileTools: Yup.array().when('track', {
-    is: 'MOBILE_DEVELOPMENT',
+    is: Tracks.MOBILE,
     then: schema =>
       schema.min(1, 'Please select at least one tool').required(),
     otherwise: schema => schema.notRequired(),

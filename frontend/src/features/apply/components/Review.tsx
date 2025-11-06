@@ -1,7 +1,49 @@
 import React from 'react';
 import { useFormikContext, Field, ErrorMessage } from 'formik';
-import { ApplicationFormData } from '../types';
+import { ApplicationFormData, Tracks } from '../types';
 import Box from '@/components/ui/box';
+
+const toolOptions = {
+  frontend: [
+    { value: 'REACT', label: 'React' },
+    { value: 'VUE', label: 'Vue' },
+    { value: 'ANGULAR', label: 'Angular' },
+    { value: 'NEXT_JS', label: 'Next.js' },
+    { value: 'TAILWIND_CSS', label: 'Tailwind CSS' },
+    { value: 'OTHER', label: 'Other' },
+  ],
+  backend: [
+    { value: 'NODE_JS', label: 'Node.js' },
+    { value: 'PYTHON', label: 'Python (Django/Flask)' },
+    { value: 'PHP', label: 'PHP (Laravel)' },
+    { value: 'JAVA', label: 'Java (Spring)' },
+    { value: 'GO', label: 'Go' },
+    { value: 'OTHER', label: 'Other' },
+  ],
+  fullstack: [
+    { value: 'REACT', label: 'React' },
+    { value: 'NODE_JS', label: 'Node.js' },
+    { value: 'NEXT_JS', label: 'Next.js' },
+    { value: 'LARAVEL', label: 'Laravel' },
+    { value: 'DJANGO', label: 'Django' },
+    { value: 'OTHER', label: 'Other' },
+  ],
+  mobile: [
+    { value: 'FLUTTER', label: 'Flutter' },
+    { value: 'REACT_NATIVE', label: 'React Native' },
+    { value: 'KOTLIN', label: 'Kotlin' },
+    { value: 'SWIFT', label: 'Swift' },
+    { value: 'OTHER', label: 'Other' },
+  ],
+};
+
+const allToolOptions = [
+  ...toolOptions.frontend,
+  ...toolOptions.backend,
+  ...toolOptions.fullstack,
+  ...toolOptions.mobile,
+];
+const toolDisplayMap = new Map(allToolOptions.map(opt => [opt.value, opt.label]));
 
 // Helper component to display a summary item
 const SummaryItem: React.FC<{ label: string; value: React.ReactNode }> = ({
@@ -19,12 +61,12 @@ const SummaryItem: React.FC<{ label: string; value: React.ReactNode }> = ({
 );
 
 // Helper maps to format values for display
-const trackDisplayNames: Record<ApplicationFormData['track'], string> = {
+const trackDisplayNames: Record<Tracks | '', string> = {
   '': 'N/A',
-  FRONTEND: 'Frontend Engineering',
-  BACKEND: 'Backend Engineering',
-  FULLSTACK_DEVELOPMENT: 'Fullstack Engineering',
-  MOBILE_DEVELOPMENT: 'Mobile Engineering',
+  [Tracks.FRONTEND]: 'Frontend Engineering',
+  [Tracks.BACKEND]: 'Backend Engineering',
+  [Tracks.FULLSTACK]: 'Fullstack Engineering',
+  [Tracks.MOBILE]: 'Mobile Engineering',
 };
 
 const referralSourceDisplayNames: Record<string, string> = {
@@ -43,21 +85,26 @@ export const Review = () => {
   let tools: string[] = [];
   let otherTools: string = '';
 
-  if (track === 'FRONTEND') {
+  if (track === Tracks.FRONTEND) {
     tools = values.frontendTools;
     otherTools = values.frontendToolsOther;
-  } else if (track === 'BACKEND') {
+  } else if (track === Tracks.BACKEND) {
     tools = values.backendTools;
     otherTools = values.backendToolsOther;
-  } else if (track === 'FULLSTACK_DEVELOPMENT') {
+  } else if (track === Tracks.FULLSTACK) {
     tools = values.fullstackTools;
     otherTools = values.fullstackToolsOther;
-  } else if (track === 'MOBILE_DEVELOPMENT') {
+  } else if (track === Tracks.MOBILE) {
     tools = values.mobileTools;
     otherTools = values.mobileToolsOther;
   }
 
-  const displayTools = [...tools, otherTools].filter(Boolean).join(', ');
+  const displayedToolLabels = tools
+    .filter(toolValue => toolValue !== 'OTHER')
+    .map(toolValue => toolDisplayMap.get(toolValue) || toolValue); 
+  const displayTools = [...displayedToolLabels, otherTools]
+    .filter(Boolean) 
+    .join(', ');
 
   return (
     <Box>
@@ -72,7 +119,7 @@ export const Review = () => {
           value={`${values.firstName} ${values.lastName}`}
         />
         <SummaryItem label="Email" value={values.email} />
-        <SummaryItem label="Phone" value={values.phoneNumber} />
+        <SummaryItem label="Phone Number" value={values.phoneNumber} />
         <SummaryItem label="City" value={values.city} />
       </Box>
 
@@ -82,7 +129,6 @@ export const Review = () => {
           label="Selected Track"
           value={trackDisplayNames[values.track] || values.track}
         />
-        {/* Only show tools if there are any */}
         {displayTools && <SummaryItem label="Tools" value={displayTools} />}
       </Box>
 
