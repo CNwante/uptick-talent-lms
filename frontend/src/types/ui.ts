@@ -1,4 +1,5 @@
 import React from 'react';
+import { type LucideIcon } from 'lucide-react';
 
 // Input Props
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -21,4 +22,27 @@ export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElemen
   label: string;
   description?: string;
   wrapperClassName?: string;
+}
+
+// NavMain Props
+export interface NavMainProps {
+  items: {
+    title: string;
+    url: string;
+    icon?: LucideIcon;
+    isActive?: boolean;
+    items?: {
+      title: string;
+      url: string;
+    }[];
+  }[];
+}
+
+// NavUser Props
+export interface NavUserProps {
+  user: {
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }
