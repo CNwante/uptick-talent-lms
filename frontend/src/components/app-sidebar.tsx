@@ -15,7 +15,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   const lang = useAppSelector(state => state.settings.lang) as LangKey;
   const data = getters.geti18ns()[lang].sidebarContent;
   return (
@@ -32,4 +32,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarRail />
     </Sidebar>
   );
-}
+};

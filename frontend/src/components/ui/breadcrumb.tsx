@@ -5,11 +5,11 @@ import Box from './box';
 
 import { cn } from '@/lib/utils';
 
-function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {
+const Breadcrumb = ({ ...props }: React.ComponentProps<'nav'>) => {
   return <Box as="nav" aria-label="breadcrumb" data-slot="breadcrumb" {...props} />;
-}
+};
 
-function BreadcrumbList({ className, ...props }: React.ComponentProps<'ol'>) {
+const BreadcrumbList = ({ className, ...props }: React.ComponentProps<'ol'>) => {
   return (
     <Box
       as="ol"
@@ -21,9 +21,9 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<'ol'>) {
       {...props}
     />
   );
-}
+};
 
-function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
+const BreadcrumbItem = ({ className, ...props }: React.ComponentProps<'li'>) => {
   return (
     <Box
       as="li"
@@ -32,15 +32,15 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<'li'>) {
       {...props}
     />
   );
-}
+};
 
-function BreadcrumbLink({
+const BreadcrumbLink = ({
   asChild,
   className,
   ...props
 }: React.ComponentProps<'a'> & {
   asChild?: boolean;
-}) {
+}) => {
   const Comp = asChild ? Slot : Box;
 
   return (
@@ -51,9 +51,9 @@ function BreadcrumbLink({
       {...props}
     />
   );
-}
+};
 
-function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
+const BreadcrumbPage = ({ className, ...props }: React.ComponentProps<'span'>) => {
   return (
     <Box
       as="span"
@@ -65,9 +65,9 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>) {
       {...props}
     />
   );
-}
+};
 
-function BreadcrumbSeparator({ children, className, ...props }: React.ComponentProps<'li'>) {
+const BreadcrumbSeparator = ({ children, className, ...props }: React.ComponentProps<'li'>) => {
   return (
     <Box
       as="li"
@@ -80,9 +80,9 @@ function BreadcrumbSeparator({ children, className, ...props }: React.ComponentP
       {children ?? <ChevronRight />}
     </Box>
   );
-}
+};
 
-function BreadcrumbEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
+const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<'span'>) => {
   return (
     <Box
       as="span"
@@ -98,7 +98,7 @@ function BreadcrumbEllipsis({ className, ...props }: React.ComponentProps<'span'
       </Box>
     </Box>
   );
-}
+};
 
 export {
   Breadcrumb,

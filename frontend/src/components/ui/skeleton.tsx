@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import Box from './box';
 
-function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
+const Skeleton = ({ className, ...props }: React.ComponentProps<'div'>) => {
   return (
     <Box
       data-slot="skeleton"
@@ -9,6 +9,6 @@ function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
       {...props}
     />
   );
-}
+};
 
 export { Skeleton };
