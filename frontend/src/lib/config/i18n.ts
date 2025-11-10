@@ -1,4 +1,4 @@
-import { ClipboardList } from "lucide-react";
+import { ClipboardList } from 'lucide-react';
 
 const i18nData = {
   en: {
@@ -28,7 +28,13 @@ const i18nData = {
         name: 'Admin',
         email: 'admin@example.com',
         avatar: '/avatars/shadcn.jpg',
+        notification: 'Notifications',
+        logout: 'Log out',
       },
+      sidebarGroup: {
+        title: 'Platform',
+      },
+      dashboard: 'Dashboard',
       applications: [
         {
           title: 'Applications',

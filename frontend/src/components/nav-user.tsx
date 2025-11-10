@@ -18,10 +18,15 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { useAppSelector } from '@/redux';
+import { getters, LangKey } from '@/lib/config/i18n';
 import { NavUserProps } from '@/types/ui';
 
 export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar();
+
+  const lang = useAppSelector(state => state.settings.lang) as LangKey;
+  const data = getters.geti18ns()[lang].sidebarContent.user;
 
   return (
     <SidebarMenu>
@@ -65,13 +70,13 @@ export function NavUser({ user }: NavUserProps) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Bell />
-                Notifications
+                {data.notification}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut />
-              Log out
+              {data.logout}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -13,17 +13,25 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
+
+import { useAppSelector } from '@/redux';
+import { getters, LangKey } from '@/lib/config/i18n';
 import { NavMainProps } from '@/types/ui';
 
 export function NavMain({ items }: NavMainProps) {
+  const lang = useAppSelector(state => state.settings.lag) as LangKey;
+  const data = getters.geti18ns()[lang].sidebarContent;
+
+  console.log(data);
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{data.SidebarGroup.title}</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton tooltip="Dashboard">
             <LayoutDashboardIcon />
-            <span>Dashboard</span>
+            <span>{data.dashboard}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
         {items.map(item => (
