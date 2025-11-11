@@ -77,7 +77,7 @@ export const createApplicant = async (
       email,
       `${firstName} ${lastName}`,
     );
-    Logger.log(emailSent ? "Email Sent!" : "Email failed");
+    console.log(emailSent ? "Email Sent!" : "Email failed");
 
     return responseObject({
       res,
@@ -122,7 +122,7 @@ export const getAllApplicants = async (
         createdAt: true,
       },
     });
-    Logger.log('all applicants:', applicants)
+    console.log('all applicants:', applicants)
 
     return responseObject({
       res,
