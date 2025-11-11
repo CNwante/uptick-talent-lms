@@ -4,6 +4,7 @@ import { createApplicationSchema } from "../utils/applicants";
 import { sendApplicationEmail } from "../utils/email";
 import { responseObject } from "../utils";
 import { HttpStatusCode } from "../config";
+import { Logger } from "../config/logger";
 
 const prisma = new PrismaClient();
 
@@ -13,7 +14,7 @@ export const createApplicant = async (
   next: NextFunction,
 ) => {
   try {
-    console.log("RAW BODY:", req.body);
+    Logger.log("RAW BODY:", req.body);
 
     const parsed = createApplicationSchema.safeParse(req.body);
     if (!parsed.success) {
@@ -76,7 +77,7 @@ export const createApplicant = async (
       email,
       `${firstName} ${lastName}`,
     );
-    console.log(emailSent ? "Email Sent!" : "Email failed");
+    Logger.log(emailSent ? "Email Sent!" : "Email failed");
 
     return responseObject({
       res,
@@ -86,11 +87,6 @@ export const createApplicant = async (
       payload: newApplicant,
     });
 
-    // return res.status(201).json({
-    //   success: true,
-    //   message: "Applicant created!",
-    //   data: newApplicant,
-    // });
   } catch (error: any) {
     if (error.code === "P2002") {
       return responseObject({
@@ -99,10 +95,7 @@ export const createApplicant = async (
         statusCode: HttpStatusCode.CONFLICT,
         message: "Email or phone already exists",
       });
-      // return res.status(409).json({
-      //   success: false,
-      //   message: "Email or phone already exists",
-      // });
+     
     }
     next(error);
   }
@@ -129,6 +122,7 @@ export const getAllApplicants = async (
         createdAt: true,
       },
     });
+    Logger.log('all applicants:', applicants)
 
     return responseObject({
       res,
@@ -141,11 +135,7 @@ export const getAllApplicants = async (
       message: "All Applicants",
     });
 
-    // return res.status(201) .json({
-    //   success: true,
-    //   allApplicants: applicants,
-    //   count:  applicants.length
-    // })
+   
   } catch (error: any) {
     next(error);
   }

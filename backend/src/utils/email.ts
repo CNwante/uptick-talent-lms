@@ -1,13 +1,13 @@
 import { Resend } from "resend";
-import dotenv from 'dotenv'
+import { Logger } from "../config/logger";
+import { env } from "../config/dynamicEnv";
 
-dotenv.config()
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
 export const sendApplicationEmail = async (to: string, name: string) => {
-  if (!process.env.RESEND_API_KEY) {
-    console.error("Missing RESEND_API_KEY");
-    return false;
+  if (!env.RESEND_API_KEY) {
+    Logger.error("Missing RESEND_API_KEY");
+     throw new Error("RESEND_API_KEY is required");
   }
 
  const sendEmail = async () => {
@@ -28,11 +28,11 @@ export const sendApplicationEmail = async (to: string, name: string) => {
     });
 
     if (error) {
-      console.error("Resend Error:", error);
+      Logger.error("Resend Error:", error);
       throw error;
     }
 
-    console.log("Email sent:", data?.id);
+    Logger.log("Email sent:", data?.id);
     return true;
   };
 
@@ -40,11 +40,11 @@ export const sendApplicationEmail = async (to: string, name: string) => {
   try {
     return await sendEmail();
   } catch (error) {
-    console.log("First attempt failed, retrying...");
+    Logger.log("First attempt failed, retrying...");
     try {
       return await sendEmail();
     } catch (retryError) {
-      console.error("Retry failed:", retryError);
+      Logger.error("Retry failed:", retryError);
       return false;
     }
   }
