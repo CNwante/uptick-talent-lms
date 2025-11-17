@@ -71,6 +71,19 @@ const trackDisplayNames: Record<Tracks | '', string> = {
   [Tracks.BACKEND]: 'Backend Engineering',
   [Tracks.FULLSTACK]: 'Fullstack Engineering',
   [Tracks.MOBILE]: 'Mobile Engineering',
+  [Tracks.DATA_SCIENCE]: 'Data Science',
+  [Tracks.MACHINE_LEARNING]: 'Machine Learning',
+  [Tracks.DATA_ANALYSIS]: 'Data Analysis',
+  [Tracks.DATA_ENGINEERING]: 'Data Engineering',
+  [Tracks.UI_DESIGN]: 'UI Design',
+  [Tracks.UX_DESIGN]: 'UX Design',
+  [Tracks.GRAPHICS_DESIGN]: 'Graphics Design',
+  [Tracks.UX_RESEARCH]: 'UX Research',
+  [Tracks.PROJECT_PRODUCT_MANAGEMENT]: 'Project/Product Management',
+  [Tracks.PRODUCT_MARKETING_MANAGEMENT]: 'Product Marketing Management',
+  [Tracks.OPERATIONS]: 'Operations',
+  [Tracks.SALES]: 'Sales',
+  [Tracks.BUSINESS_DEVELOPMENT]: 'Business Development',
 };
 
 const referralSourceDisplayNames: Record<string, string> = {
@@ -89,21 +102,17 @@ export const Review = () => {
   const { countryOptions, stateOptions } = useCountryStateCity(values.country);
 
   let tools: string[] = [];
-  let otherTools: string = '';
+  if (track === Tracks.FRONTEND) tools = values.frontendTools;
+  else if (track === Tracks.BACKEND) tools = values.backendTools;
+  else if (track === Tracks.FULLSTACK) tools = values.fullstackTools;
+  else if (track === Tracks.MOBILE) tools = values.mobileTools;
 
-  if (track === Tracks.FRONTEND) {
-    tools = values.frontendTools;
-    otherTools = values.frontendToolsOther;
-  } else if (track === Tracks.BACKEND) {
-    tools = values.backendTools;
-    otherTools = values.backendToolsOther;
-  } else if (track === Tracks.FULLSTACK) {
-    tools = values.fullstackTools;
-    otherTools = values.fullstackToolsOther;
-  } else if (track === Tracks.MOBILE) {
-    tools = values.mobileTools;
-    otherTools = values.mobileToolsOther;
-  }
+  const otherTools =
+    (track === Tracks.FRONTEND && values.frontendToolsOther) ||
+    (track === Tracks.BACKEND && values.backendToolsOther) ||
+    (track === Tracks.FULLSTACK && values.fullstackToolsOther) ||
+    (track === Tracks.MOBILE && values.mobileToolsOther) ||
+    '';
 
   const displayedToolLabels = tools
     .filter(toolValue => toolValue !== 'OTHER')
