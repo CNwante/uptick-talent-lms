@@ -46,7 +46,7 @@ const defaultInitialValues: ApplicationFormData = {
   fullstackToolsOther: '',
   mobileTools: [],
   mobileToolsOther: '',
-    referralSource: '',
+  referralSource: '',
   referralSourceOther: '',
   confirm: false,
 };
@@ -108,7 +108,7 @@ export const ApplicationForm = () => {
   );
 
   // TanStack Query mutation for form submission
-  const { mutate, isPending } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (data: ApplicationFormData) => {
       const payload: any = {
         ...data,
@@ -126,6 +126,9 @@ export const ApplicationForm = () => {
           : [],
       };
 
+      delete payload.fullstackTools;
+      delete payload.fullstackToolsOther;
+
       return client.post(urls.APPLY, payload);
     },
     onSuccess: () => {
@@ -138,7 +141,7 @@ export const ApplicationForm = () => {
     },
   });
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: ApplicationFormData,
     actions: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
@@ -148,8 +151,10 @@ export const ApplicationForm = () => {
       return;
     }
 
-    // This is the final submission
-    mutate(values);
+    try {
+      await mutateAsync(values);
+    } catch (error) {
+    }
   };
 
   const currentValidationSchema = validationSchemas[currentStep - 1];
@@ -163,7 +168,7 @@ export const ApplicationForm = () => {
     >
       {({ isSubmitting, isValid }) => (
         <Form>
-          <AutoSaveHandler /> {/* Attach auto-save hook */}
+          <AutoSaveHandler />
           
           <StepIndicator
             currentStep={currentStep}
@@ -179,7 +184,7 @@ export const ApplicationForm = () => {
             onBack={prevStep}
             isFirstStep={isFirstStep}
             isLastStep={isLastStep}
-            isSubmitting={isSubmitting || isPending}
+            isSubmitting={isSubmitting}
             isValid={isValid}
           />
         </Form>
