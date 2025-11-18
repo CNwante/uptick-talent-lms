@@ -4,12 +4,12 @@ import helmet from "helmet";
 import compression from "compression";
 import rateLimit from "express-rate-limit";
 import { getters } from "@config";
-import { loadServices } from "./loader";
+// import { loadServices } from "./loader";
 import { Logger } from "./constants/logger";
 import { EnvironmentConfig } from "./constants/environment";
-import router from "./routes/applicants.routes";
+// import router from "./routes/applicants.routes";
 import errorHandlerMiddleWare from "./Middlware/ErrorHandlerMiddleware";
-import { ENDPOINTS } from "./constants/endpoints";
+// import { ENDPOINTS } from "./constants/endpoints";
 import { env } from "./config/dynamicEnv";
 import { responseObject } from '@utils';
 import { HttpStatusCode } from '@config';
@@ -40,28 +40,30 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-// CORS configuration
 const corsOptions = {
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean | string) => void) => {
+    // Allow requests with no origin (Postman, curl, mobile)
     if (!origin) return callback(null, true);
-    
-    if (EnvironmentConfig.IS_PRODUCTION) {
-      const allowedOrigins = getters.getAllowedOrigins();
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+
+    if (!EnvironmentConfig.IS_PRODUCTION) {
+      // In development: allow localhost + 127.0.0.1 + http + https
+      if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return callback(null, origin); // echo back exact origin
       }
-    } else {
-      // In development, allow all origins
-      callback(null, true);
     }
+
+    // Production: strict check
+    const allowedOrigins = getters.getAllowedOrigins();
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, origin);
+    }
+
+    callback(new Error("Not allowed by CORS"));
   },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   credentials: true,
-  maxAge: 86400, // 24 hours
+  maxAge: 86400,
 };
 
 app.use(cors(corsOptions));
@@ -115,20 +117,20 @@ app.use((req, res, next) => {
 
 const allowedOrigins = env.ALLOWED_ORIGINS;
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, 
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true, 
+//     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//   })
+// );
 
 
 
