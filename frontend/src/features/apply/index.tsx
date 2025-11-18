@@ -144,6 +144,9 @@ export const ApplicationForm = () => {
         mobileToolsOther: data.mobileToolsOther
           ? [data.mobileToolsOther]
           : [],
+        referralSourceOther: data.referralSourceOther
+          ? [data.referralSourceOther]
+          : [],
       };
 
       delete payload.fullstackTools;
