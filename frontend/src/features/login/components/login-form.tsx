@@ -41,8 +41,8 @@ const LoginForm: React.FC = () => {
 
         if (userRole === 'ADMIN') {
           router.push('/dashboard');
-        } else {
-          router.push('/lms/home');
+        } else if (userRole === 'STUDENT') {
+          router.push('/student/dashboard');
         }
       } else {
         toast.error(response.message);
