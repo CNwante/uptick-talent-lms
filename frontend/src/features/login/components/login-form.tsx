@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@radix-ui/react-label';
 import { useAppSelector } from '@/redux';
 import { useMutation } from '@tanstack/react-query';
 import { loginUser } from '@/lib/api/auth';
@@ -67,40 +68,57 @@ const LoginForm: React.FC = () => {
         {text.title}
       </Box>
 
-      <Input
-        id="email"
-        name="email"
-        type="email"
-        label={text.email}
-        placeholder="you@example.com"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
-        error={formik.touched.email && formik.errors.email ? formik.errors.email : undefined}
-        disabled={isSubmitting}
-      />
+      {/* Email Field */}
+      <div className="grid gap-2">
+        <Label htmlFor="email">{text.email}</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="you@example.com"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          disabled={isSubmitting}
+          className={formik.touched.email && formik.errors.email ? 'border-red-500' : ''}
+        />
+        {formik.touched.email && formik.errors.email && (
+          <p className="text-sm text-red-500">{formik.errors.email}</p>
+        )}
+      </div>
 
-      <Box className="mt-4" />
+      {/* Password Field */}
+      <div className="grid gap-2">
+        <Label htmlFor="password">{text.password}</Label>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          disabled={isSubmitting}
+          className={formik.touched.password && formik.errors.password ? 'border-red-500' : ''}
+        />
+        {formik.touched.password && formik.errors.password && (
+          <p className="text-sm text-red-500">{formik.errors.password}</p>
+        )}
+      </div>
 
-      <Input
-        id="password"
-        name="password"
-        type="password"
-        label={text.password}
-        placeholder="••••••••"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.password}
-        error={
-          formik.touched.password && formik.errors.password ? formik.errors.password : undefined
-        }
-        disabled={isSubmitting}
-      />
-
-      <Checkbox id="remember" label={text.remember} wrapperClassName="mt-3" />
+      {/* Checkbox */}
+      <div className="flex items-center space-x-2 mt-3">
+        <Checkbox id="remember" />
+        <Label
+          htmlFor="remember"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          {text.remember}
+        </Label>
+      </div>
 
       <Box className="mt-6 flex flex-col gap-3 items-center">
-        <Button type="submit" fullWidth disabled={isSubmitting}>
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? 'Processing...' : text.login}
         </Button>
 
