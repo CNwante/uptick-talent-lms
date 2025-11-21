@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Box from '@/components/ui/box';
-import { DashboardSidebar } from '@/features/dashboard/components/DashboardSidebar';
-import { DashboardHeader } from '@/features/dashboard/components/DashboardHeader';
+import { DashboardSidebar } from '@/features/student/dashboard/components/DashboardSidebar';
+import { DashboardHeader } from '@/features/student/dashboard/components/DashboardHeader';
 
 export default function StudentLayout({ children }: { children: React.ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

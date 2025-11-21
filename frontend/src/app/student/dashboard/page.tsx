@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { DashboardOverview } from '@/features/dashboard/components/DashboardOverview';
-import { WeeklyMaterials } from '@/features/dashboard/components/WeeklyMaterials';
+import { DashboardOverview } from '@/features/student/dashboard/components/DashboardOverview';
+import { WeeklyMaterials } from '@/features/student/dashboard/components/WeeklyMaterials';
 import { getStudentDashboard } from '@/lib/api/student';
 import { queryKeys } from '@/lib/config/constants';
 import Box from '@/components/ui/box';
