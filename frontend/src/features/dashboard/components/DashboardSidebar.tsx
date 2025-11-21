@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Box from '@/components/ui/box';
 import { cn } from '@/lib/utils';
-import { X, Home, Video, User2 } from 'lucide-react';
+import { X, Home, Video, User2, CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface NavItem {
   name: string;
-  path: string; // Changed from href to path (relative)
+  path: string;
   icon: React.ReactNode;
 }
 
@@ -24,6 +24,11 @@ const navItems: NavItem[] = [
     name: 'Live Classes',
     path: '/live-classes',
     icon: <Video className="w-5 h-5" />,
+  },
+  {
+    name: 'Attendance',
+    path: '/attendance',
+    icon: <CalendarCheck className="w-5 h-5" />,
   },
   {
     name: 'Profile',
@@ -41,7 +46,7 @@ interface DashboardSidebarProps {
 export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   isOpen = false,
   onClose,
-  basePath = '/student', // Default to student base path if not provided
+  basePath = '/student',
 }) => {
   const pathname = usePathname();
 
@@ -75,7 +80,6 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
         <nav className="space-y-2">
           {navItems.map(item => {
             const fullHref = `${basePath}${item.path}`;
-
             const isActive = pathname === fullHref;
 
             return (
