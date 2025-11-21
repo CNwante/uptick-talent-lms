@@ -33,24 +33,6 @@ const mockLiveClasses: LiveClass[] = [
       duration: 58,
     },
   },
-  {
-    id: '3',
-    title: 'Code Review Session',
-    description: 'Reviewing student projects and providing feedback',
-    scheduledAt: '2024-01-18T16:00:00',
-    duration: 45,
-    googleMeetLink: 'https://meet.google.com/mno-pqrs-tuv',
-    status: 'completed',
-    attendance: {
-      id: '2',
-      classId: '3',
-      studentId: '1',
-      status: 'late',
-      joinedAt: '2024-01-18T16:05:00',
-      leftAt: '2024-01-18T16:45:00',
-      duration: 40,
-    },
-  },
 ];
 
 export const LiveClasses: React.FC = () => {
@@ -97,29 +79,11 @@ export const LiveClasses: React.FC = () => {
     const baseClasses = 'px-2 py-1 rounded-full text-xs font-medium';
     switch (status) {
       case 'present':
-        return (
-          <span
-            className={`${baseClasses} bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200`}
-          >
-            Present
-          </span>
-        );
+        return <span className={`${baseClasses} bg-green-100 text-green-800`}>Present</span>;
       case 'absent':
-        return (
-          <span
-            className={`${baseClasses} bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200`}
-          >
-            Absent
-          </span>
-        );
+        return <span className={`${baseClasses} bg-red-100 text-red-800`}>Absent</span>;
       case 'late':
-        return (
-          <span
-            className={`${baseClasses} bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200`}
-          >
-            Late
-          </span>
-        );
+        return <span className={`${baseClasses} bg-yellow-100 text-yellow-800`}>Late</span>;
     }
   };
 
@@ -189,11 +153,6 @@ export const LiveClasses: React.FC = () => {
                       Joined: {new Date(classItem.attendance.joinedAt).toLocaleTimeString()}
                     </span>
                   )}
-                  {classItem.attendance.duration && (
-                    <span className="text-sm text-muted-foreground">
-                      Duration: {classItem.attendance.duration} minutes
-                    </span>
-                  )}
                 </Box>
               </Box>
             )}
@@ -206,48 +165,8 @@ export const LiveClasses: React.FC = () => {
                 Join Google Meet
               </Button>
             )}
-
-            {classItem.status === 'live' && (
-              <Button
-                onClick={() => handleJoinClass(classItem.googleMeetLink)}
-                className="w-full md:w-auto bg-green-600 hover:bg-green-700"
-              >
-                Join Live Class
-              </Button>
-            )}
-
-            {classItem.status === 'completed' && (
-              <Box className="pt-2">
-                <a
-                  href={classItem.googleMeetLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-primary hover:underline"
-                >
-                  View Recording →
-                </a>
-              </Box>
-            )}
           </Box>
         ))}
-      </Box>
-
-      <Box className="bg-card border border-border rounded-lg p-6">
-        <h3 className="text-lg font-semibold mb-4">Attendance Summary</h3>
-        <Box className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Box className="text-center p-4 bg-accent rounded-lg">
-            <p className="text-3xl font-bold text-primary">85%</p>
-            <p className="text-sm text-muted-foreground mt-1">Overall Attendance</p>
-          </Box>
-          <Box className="text-center p-4 bg-accent rounded-lg">
-            <p className="text-3xl font-bold text-green-600">12</p>
-            <p className="text-sm text-muted-foreground mt-1">Classes Attended</p>
-          </Box>
-          <Box className="text-center p-4 bg-accent rounded-lg">
-            <p className="text-3xl font-bold text-yellow-600">2</p>
-            <p className="text-sm text-muted-foreground mt-1">Late Arrivals</p>
-          </Box>
-        </Box>
       </Box>
     </Box>
   );
