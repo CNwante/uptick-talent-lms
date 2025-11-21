@@ -1,4 +1,4 @@
-import { constants } from "@constants";
+import { constants } from "../constants";
 import { env } from "./dynamicEnv";
 
 const getCurrentLanguage = () => {
@@ -35,6 +35,8 @@ const getDatabaseUri = () => {
 const getAllowedOrigins = () => {
   return env.ALLOWED_ORIGINS;
 };
+
+
 
 export const getters = {
   geti18ns,

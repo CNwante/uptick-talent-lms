@@ -1,0 +1,316 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STUDENT
+  MENTOR
+}
+
+enum ReferralSource {
+  TWITTER
+  LINKEDIN
+  INSTAGRAM
+  FACEBOOK
+  FRIEND
+  OTHER
+}
+
+enum Track {
+  FRONTEND
+  BACKEND
+  FULLSTACK_DEVELOPMENT
+  MOBILE_DEVELOPMENT
+  DATA_SCIENCE
+  MACHINE_LEARNING
+  DATA_ANALYSIS
+  DATA_ENGINEERING
+  UI_DESIGN
+  UX_DESIGN
+  GRAPHICS_DESIGN
+  UX_RESEARCH
+  PRODUCT_MARKETING_MANAGEMENT
+  OPERATIONS
+  SALES
+  BUSINESS_DEVELOPMENT
+  PROJECT_PRODUCT_MANAGEMENT
+}
+
+enum ApplicationStatus {
+  PENDING
+  REVIEWED
+  SHORTLISTED
+  ASSESSMENT_SENT
+  ASSESSMENT_SUBMITTED
+  INTERVIEW_SCHEDULED
+  INTERVIEW_PASSED
+  REJECTED
+  ACCEPTED
+}
+
+enum FrontendTool {
+  REACT
+  VUE
+  ANGULAR
+  SVELTE
+  OTHER
+}
+
+enum BackendTool {
+  NODE
+  EXPRESS
+  DJANGO
+  FASTAPI
+  LARAVEL
+  OTHER
+}
+
+enum MobileTool {
+  FLUTTER
+  REACT_NATIVE
+  KOTLIN
+  SWIFT
+  OTHER
+}
+
+model Applicant {
+  id          String    @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String    @unique
+  phoneNumber String    @unique
+  city        String
+  state       String?
+  country     String?   @default("Nigeria")
+  dateOfBirth DateTime?
+  track       Track
+
+  referralSource ReferralSource
+  frontendTools  FrontendTool[] @default([])
+  backendTools   BackendTool[]  @default([])
+  mobileTools    MobileTool[]   @default([])
+
+  frontendToolsOther  String[] @default([])
+  backendToolsOther   String[] @default([])
+  mobileToolsOther    String[] @default([])
+  referralSourceOther String[] @default([])
+
+  applicationStatus ApplicationStatus @default(PENDING)
+  assessment        Assessment?
+  interview         Interview?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Assessment {
+  id              String    @id @default(uuid())
+  applicantId     String    @unique
+  applicant       Applicant @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+
+  // What admin sends
+  assessmentLink  String? 
+  instructions    String?   
+  dueDate         DateTime? 
+  sentAt          DateTime?
+
+  // What applicant submits
+  submissionLink  String?   
+  liveDemoUrl     String?   
+  fileUrl         String?   
+  explanation     String? 
+  submittedAt     DateTime?
+
+  // Admin review
+  reviewedAt      DateTime?
+  reviewedById    String?   
+  reviewedBy      User?     @relation("AssessmentReviewedBy", fields: [reviewedById], references: [id])
+  feedback        String?   
+
+  // Timestamps
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([submittedAt])
+  @@index([reviewedAt])
+}
+
+model Interview {
+  id            String            @id @default(uuid())
+  applicantId   String            @unique
+  applicant     Applicant         @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  status        ApplicationStatus @default(SHORTLISTED)
+  interviewDate DateTime
+  notes         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  firstName     String
+  lastName      String
+  role          Role      @default(STUDENT)
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  adminProfile   AdminProfile?
+  mentorProfile  MentorProfile?
+  studentProfile StudentProfile?
+
+  reviewedAssessments Assessment[] @relation("AssessmentReviewedBy")
+}
+
+model AdminProfile {
+  id        String   @id @default(uuid())
+  adminId   String   @unique
+  email     String   @unique
+  firstName String
+  lastName  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
+
+model StudentProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  email     String   @unique
+  firstName String
+  lastName  String
+  track     Track
+  cohortId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cohort    Cohort?  @relation(fields: [cohortId], references: [id])
+  courses   Course[]
+  assignmentSubmission   AssignmentSubmission[]
+}
+
+model MentorProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  email     String   @unique
+  firstName String
+  lastName  String
+  expertise String[]
+  track     Track?
+  bio       String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courses Course[]
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("password_reset_tokens")
+}
+
+model Cohort {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  track       Track
+  startDate   DateTime
+  endDate     DateTime
+  description String?
+  isActive    Boolean  @default(true)
+
+  students StudentProfile[]
+  courses  Course[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cohorts")
+}
+
+model Course {
+  id          String  @id @default(uuid())
+  title       String
+  description String
+  track       Track
+  cohortId    String?
+  mentorId    String?
+  
+  cohort      Cohort?       @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  mentor      MentorProfile? @relation(fields: [mentorId], references: [id], onDelete: SetNull)
+   students    StudentProfile[] 
+  materials   CourseMaterial[]
+  assignments Assignment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("courses")
+}
+
+model CourseMaterial {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  fileUrl     String?
+  content     String?
+  weekNumber  Int
+  courseId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_materials")
+}
+
+
+model Assignment {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  instructions String
+  dueDate      DateTime
+  maxScore     Int      @default(100)
+  courseId     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  course       Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  submissions  AssignmentSubmission[]
+
+  @@map("assignments")
+}
+
+
+model AssignmentSubmission {
+  id           String   @id @default(uuid())
+  assignmentId String
+  studentId    String
+  fileUrl      String?
+  content      String?
+  submittedAt  DateTime @default(now())
+  grade        Int?
+  feedback     String?
+  gradedAt     DateTime?
+
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  student      StudentProfile @relation(fields: [studentId], references: [userId], onDelete: Cascade)
+
+  @@unique([assignmentId, studentId])
+  @@map("assignment_submissions")
+}
