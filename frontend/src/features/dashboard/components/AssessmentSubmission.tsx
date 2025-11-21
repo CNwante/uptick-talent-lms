@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import Box from '@/components/ui/box';
 import { Assessment } from '@/types/lms';
 import { Button } from '@/components/ui/button';
@@ -13,6 +15,9 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { submitAssignment } from '@/lib/api/student';
+import { queryKeys } from '@/lib/config/constants';
+import { getErrorMessage } from '@/utils/errors';
 
 interface AssessmentSubmissionProps {
   assessment: Assessment;
@@ -25,30 +30,30 @@ export const AssessmentSubmission: React.FC<AssessmentSubmissionProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const queryClient = useQueryClient();
   const [submissionUrl, setSubmissionUrl] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [content, setContent] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      // TODO: Replace with actual API call
-      // await client.post(`/assessments/${assessment.id}/submit`, {
-      //   submissionUrl,
-      //   file,
-      // });
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
+  const { mutate, isPending } = useMutation({
+    mutationFn: submitAssignment,
+    onSuccess: () => {
+      toast.success('Assignment submitted successfully!');
+      queryClient.invalidateQueries({ queryKey: [queryKeys.STUDENT_ASSIGNMENTS] });
       onSuccess();
-    } catch (error) {
-      console.error('Submission failed:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+      onClose();
+    },
+    onError: error => {
+      toast.error(getErrorMessage(error, 'Failed to submit assignment'));
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate({
+      assignmentId: assessment.id,
+      fileUrl: submissionUrl,
+      content: content,
+    });
   };
 
   return (
@@ -62,34 +67,32 @@ export const AssessmentSubmission: React.FC<AssessmentSubmissionProps> = ({
         <form onSubmit={handleSubmit} className="space-y-4">
           <Box>
             <label className="block text-sm font-medium mb-2">
-              Submission URL (GitHub, CodeSandbox, etc.)
+              Submission Link (GitHub, Google Drive, etc.)
             </label>
             <Input
               type="url"
               value={submissionUrl}
               onChange={e => setSubmissionUrl(e.target.value)}
-              placeholder="https://github.com/username/repo"
+              placeholder="https://..."
               required
             />
           </Box>
 
           <Box>
-            <label className="block text-sm font-medium mb-2">
-              Or Upload File
-            </label>
+            <label className="block text-sm font-medium mb-2">Additional Comments (Optional)</label>
             <Input
-              type="file"
-              onChange={e => setFile(e.target.files?.[0] || null)}
-              accept=".zip,.pdf,.doc,.docx"
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              placeholder="Any notes for your mentor..."
             />
           </Box>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={onClose} disabled={isPending}>
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+            <Button type="submit" disabled={isPending}>
+              {isPending ? 'Submitting...' : 'Submit'}
             </Button>
           </DialogFooter>
         </form>
@@ -97,4 +100,3 @@ export const AssessmentSubmission: React.FC<AssessmentSubmissionProps> = ({
     </Dialog>
   );
 };
-
